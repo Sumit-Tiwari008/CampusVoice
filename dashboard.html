@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - CampusVoice</title>
+    <!-- Dark Mode Initial Check -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar">
+        <a href="index.html" class="logo" style="text-decoration: none;">Campus<span>Voice</span></a>
+        
+        <div class="nav-buttons">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+            <a href="create-issue.html" class="btn btn-pill">+ Report Issue</a>
+            <a href="login.html" class="btn btn-ghost">Log Out</a>
+        </div>
+    </header>
+
+    <!-- ===== DASHBOARD SECTION ===== -->
+    <section class="how-it-works">
+        <h2>Campus Issues Dashboard</h2>
+        
+        <!-- Filter Tabs -->
+        <div id="filterContainer" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 35px; flex-wrap: wrap;">
+            <button class="btn btn-pill" data-category="all" style="padding: 8px 18px; font-size: 13px;">All Issues</button>
+            <button class="btn btn-ghost" data-category="hostel" style="padding: 8px 18px; font-size: 13px;">Hostel</button>
+            <button class="btn btn-ghost" data-category="wifi" style="padding: 8px 18px; font-size: 13px;">Wi-Fi</button>
+            <button class="btn btn-ghost" data-category="mess" style="padding: 8px 18px; font-size: 13px;">Mess</button>
+            <button class="btn btn-ghost" data-category="academics" style="padding: 8px 18px; font-size: 13px;">Academics</button>
+        </div>
+
+        <!-- Issue Cards -->
+        <div class="steps">
+            <div class="step-card" data-category="wifi" style="text-align: left;">
+                <div class="step-number" style="margin: 0 0 16px 0;">📡</div>
+                <span class="eyebrow" style="margin-bottom: 6px;">Wi-Fi &bull; Block B</span>
+                <h3>Hostel Wi-Fi Down</h3>
+                <p>Wi-Fi in Block B has been non-functional for 2 days during mid-term preparation.</p>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-pill" style="width: 100%;">I Am Affected (42)</button>
+                </div>
+            </div>
+
+            <div class="step-card" data-category="hostel" style="text-align: left;">
+                <div class="step-number" style="margin: 0 0 16px 0;">❄️</div>
+                <span class="eyebrow" style="margin-bottom: 6px;">Hostel &bull; 3rd Floor</span>
+                <h3>Library AC Repair</h3>
+                <p>3rd-floor quiet zone air conditioning unit is leaking water and making loud noise.</p>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-pill" style="width: 100%;">I Am Affected (18)</button>
+                </div>
+            </div>
+
+            <div class="step-card" data-category="mess" style="text-align: left;">
+                <div class="step-number" style="margin: 0 0 16px 0;">🍲</div>
+                <span class="eyebrow" style="margin-bottom: 6px;">Mess &bull; Central Dining</span>
+                <h3>Mess Quality Issue</h3>
+                <p>Food served during evening dinner was undercooked and cold for multiple students.</p>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-pill" style="width: 100%;">I Am Affected (65)</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <p>&copy; 2026 CampusVoice — Smart College Issue Management System</p>
+        <p class="credit-tag">Designed & Developed by <span class="credit-name">SUMIT TIWARI</span></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

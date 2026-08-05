@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CampusVoice</title>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar">
+        <a href="index.html" class="logo">Campus<span>Voice</span> <small style="font-size: 12px; opacity: 0.7;">(Admin)</small></a>
+        
+        <div class="nav-buttons">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+            <a href="login.html" class="btn btn-ghost">Log Out</a>
+        </div>
+    </header>
+
+    <!-- ===== ADMIN DASHBOARD SECTION ===== -->
+    <section class="how-it-works">
+        <h2>Admin Management Portal</h2>
+
+        <!-- Stats Overview -->
+        <div class="steps" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 40px;">
+            <div class="step-card" style="text-align: center; padding: 20px;">
+                <h3 style="font-size: 32px; color: #a855f7;" id="totalIssuesCount">0</h3>
+                <p style="margin: 0;">Total Issues</p>
+            </div>
+            <div class="step-card" style="text-align: center; padding: 20px;">
+                <h3 style="font-size: 32px; color: #f39c12;" id="pendingIssuesCount">0</h3>
+                <p style="margin: 0;">Pending / In Progress</p>
+            </div>
+            <div class="step-card" style="text-align: center; padding: 20px;">
+                <h3 style="font-size: 32px; color: #2ecc71;" id="resolvedIssuesCount">0</h3>
+                <p style="margin: 0;">Resolved</p>
+            </div>
+        </div>
+        
+        <!-- Active Issues Container -->
+        <div class="steps" id="adminIssuesContainer"></div>
+
+        <!-- SOLVED SECTION WRAPPER (Prevents JS from duplicating containers) -->
+        <div id="adminSolvedWrapper" style="margin-top: 40px; text-align: center; width: 100%;"></div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <p>&copy; 2026 CampusVoice — Smart College Issue Management System</p>
+        <p class="credit-tag">Designed & Developed by <span class="credit-name">SUMIT TIWARI</span></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

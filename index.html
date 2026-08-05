@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusVoice - Smart Campus Issue Platform</title>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar">
+        <a href="index.html" class="logo" style="text-decoration: none;">Campus<span>Voice</span></a>
+        
+        <div class="nav-buttons">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+            <a href="login.html" class="btn btn-ghost">Log In</a>
+            <a href="register.html" class="btn btn-pill">Sign Up</a>
+        </div>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <span class="eyebrow">Smart Campus Issue Platform</span>
+        <h1>One Issue. Many Voices.<br>Better Campus.</h1>
+        <p class="hero-sub">Report campus problems, support issues raised by other students, and let the administration prioritize what really matters — based on how many students are actually affected.</p>
+        <div class="hero-buttons">
+            <a href="register.html" class="btn btn-pill btn-large">Get Started</a>
+            <a href="#how-it-works" class="btn btn-ghost btn-large">Learn More</a>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-it-works" id="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Submit an Issue</h3>
+                <p>Report a problem privately, or post it publicly for other students to see.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Others Support It</h3>
+                <p>Students facing the same issue click "I Am Affected" instead of creating duplicates.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Admin Resolves It</h3>
+                <p>The administration sees real impact and priority, assigns it to a department, and resolves it.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <p>&copy; 2026 CampusVoice — Smart College Issue Management System</p>
+        <p class="credit-tag">Designed & Developed by <span class="credit-name">SUMIT TIWARI</span></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
