@@ -54,4 +54,5 @@ This is a front-end prototype built as a personal/college project. Backend integ
 ## 👤 Author
 
 **Sumit Tiwari**
-[GitHub](https://github.com/Sumit-Tiwari008) • [LinkedIn](https://linkedin.com/in/sumit-tiwari-568431388)
+[GitHub](https://github.com/Sumit-Tiwari008) • [LinkedIn](https://linkedin.com/in/sumit-tiwari-568431388) 
+
