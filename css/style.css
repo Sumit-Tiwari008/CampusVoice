@@ -1,13 +1,17 @@
-/* CURSOR GLOW EFFECT */
+/* COMPACT LASER GLOW WITH TRAIL */
 .cursor-glow {
     position: fixed;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(168, 85, 247, 0) 70%);
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #e9d5ff 0%, #a855f7 40%, rgba(126, 34, 206, 0.8) 70%, transparent 100%);
+    box-shadow: 0 0 12px 4px rgba(168, 85, 247, 0.9), 0 0 25px 8px rgba(88, 28, 135, 0.6);
     border-radius: 50%;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    transition: width 0.2s ease, height 0.2s ease;
+    /* This transition creates the milliseconds delay/trace effect as it moves */
+    transition: transform 0.08s cubic-bezier(0.1, 0.8, 0.3, 1);
     z-index: 9999;
 }
 
