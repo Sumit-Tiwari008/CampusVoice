@@ -1,3 +1,7 @@
+html{
+    scroll-behavior: smooth;
+}
+
 /* COMPACT LASER GLOW WITH TRAIL */
 .cursor-glow {
     position: fixed;
@@ -53,6 +57,7 @@ body {
 
 
 /* ===== THEME VARIABLES ===== */
+
 :root {
     --bg-color: #F8FAFC;
     --text-color: #0F172A;
@@ -414,9 +419,30 @@ h1, h2, h3, .logo {
     outline: none;
     transition: 0.2s ease;
 }
+.auth-card select{
+    width:100%;
+    padding:12px 16px;
+    border-radius:12px;
+    border:1px solid var(--card-border);
+    background:rgba(255,255,255,.6);
+    color:var(--text-color);
+    font-size:14px;
+    outline:none;
+    transition:.2s ease;
+}
+
 
 .dark-mode .auth-card input {
+
     background: rgba(10, 10, 18, 0.6);
+}
+.dark-mode .auth-card select{
+    background:#121020;
+    color:#fff;
+}
+.dark-mode .auth-card select option{
+    background:#121020;
+    color:#fff;
 }
 
 .auth-card input:focus {
@@ -470,3 +496,24 @@ footer {
     .hero h1 { font-size: 32px; }
     .how-it-works { padding: 60px 20px; }
 }   
+/* ===== Visibility Options ===== */
+
+.visibility-options{
+    display:flex;
+    gap:20px;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+.visibility-options label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    font-weight:500;
+    color:var(--text-color);
+}
+
+.visibility-options input[type="radio"]{
+    accent-color:var(--primary);
+}
