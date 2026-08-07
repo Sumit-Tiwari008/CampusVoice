@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +11,17 @@
         }
     </script>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
 
     <!-- ===== NAVBAR ===== -->
     <header class="navbar">
         <a href="index.html" class="logo" style="text-decoration: none;">Campus<span>Voice</span></a>
-        
+
         <div class="nav-buttons">
             <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
             <a href="dashboard.html" class="btn btn-ghost">Dashboard</a>
@@ -33,13 +37,15 @@
         <div class="auth-card" style="max-width: 520px;">
             <h1>Report a Campus Issue</h1>
             <p class="auth-sub">Submit details below so administration and fellow students can prioritize it.</p>
-            
+
             <form id="createIssueForm">
                 <label for="issueTitle">Issue Title</label>
                 <input type="text" id="issueTitle" placeholder="e.g., Water Cooler Broken in Block C" required>
 
                 <label for="category">Category</label>
-                <select id="category" style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255, 255, 255, 0.6); color: var(--text-color); font-size: 14px; outline: none; transition: 0.2s ease; margin-top: 4px;" required>
+                <select id="category"
+                    style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255, 255, 255, 0.6); color: var(--text-color); font-size: 14px; outline: none; transition: 0.2s ease; margin-top: 4px;"
+                    required>
                     <option value="" disabled selected>Select Category</option>
                     <option value="hostel">Hostel & Housing</option>
                     <option value="wifi">Wi-Fi & IT Infrastructure</option>
@@ -52,7 +58,32 @@
                 <input type="text" id="location" placeholder="e.g., 2nd Floor, Near Room 204" required>
 
                 <label for="description">Description</label>
-                <textarea id="description" rows="4" placeholder="Provide clear details about the problem..." style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255, 255, 255, 0.6); color: var(--text-color); font-size: 14px; outline: none; transition: 0.2s ease; font-family: inherit; margin-top: 4px; resize: vertical;" required></textarea>
+                <textarea id="description" rows="4" placeholder="Provide clear details about the problem..."
+                    style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255, 255, 255, 0.6); color: var(--text-color); font-size: 14px; outline: none; transition: 0.2s ease; font-family: inherit; margin-top: 4px; resize: vertical;"
+                    required></textarea>
+                <label>Visibility</label>
+
+                <div class="visibility-options">
+                    <label>
+                        <input type="radio" name="visibility" value="public" checked>
+                        🌍 Public
+                    </label>
+
+                    <label>
+                        <input type="radio" name="visibility" value="admin">
+                        🔒 Admin Only
+                    </label>
+                </div>
+
+                <label for="issueImage" style="margin-top: 14px;">Upload Image (Optional)</label>
+
+                <input type="file" id="issueImage" accept="image/*" style="width: 100%;
+           padding: 12px;
+           border-radius: 12px;
+           border: 1px solid var(--card-border);
+           background: rgba(255,255,255,0.6);
+           color: var(--text-color);
+           margin-top: 4px;">
 
                 <button type="submit" class="btn btn-pill btn-full">Submit Issue</button>
             </form>
@@ -71,4 +102,5 @@
 
     <script src="js/main.js"></script>
 </body>
+
 </html>
