@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+
+
     // ===== DEFAULT ISSUES DATA =====
     const defaultIssues = [
         {
@@ -76,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggleBtn.addEventListener('click', () => {
             document.documentElement.classList.toggle('dark-mode');
             document.body.classList.toggle('dark-mode');
-            
+
             const isDark = document.documentElement.classList.contains('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             updateIcon();
@@ -115,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const category = document.getElementById('category').value;
             const location = document.getElementById('location').value;
             const description = document.getElementById('description').value;
+            const imageFile = document.getElementById('issueImage').files[0];
+            const visibility = document.querySelector('input[name="visibility"]:checked').value;
 
             const icons = {
                 wifi: '📡',
@@ -124,35 +128,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 other: '📌'
             };
 
-            const newIssue = {
-                id: 'custom_' + Date.now(),
-                title: title,
-                category: category,
-                location: location,
-                description: description,
-                icon: icons[category] || '📌',
-                votes: 1,
-                status: 'pending'
+            const reader = new FileReader();
+
+            reader.onload = function () {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const newIssue = {
+                    id: 'custom_' + Date.now(),
+                    complaintId: 'CV-' + (1000 + Date.now().toString().slice(-4)),
+                    title: title,
+                    category: category,
+                    location: location,
+                    description: description,
+                    image: reader.result,
+                    icon: icons[category] || '📌',
+
+                    visibility: visibility,
+
+                    createdBy: currentUser.email,
+                    
+                    votes: 1,
+                    status: 'pending'
+                };
+
+                const storedIssues = JSON.parse(localStorage.getItem('campusIssues')) || [];
+
+                storedIssues.unshift(newIssue);
+
+                localStorage.setItem('campusIssues', JSON.stringify(storedIssues));
+
+
+                alert('Issue submitted successfully!');
+
+                window.location.href = 'dashboard.html';
+
             };
 
-            const storedIssues = JSON.parse(localStorage.getItem('campusIssues')) || [];
-            storedIssues.unshift(newIssue);
-            localStorage.setItem('campusIssues', JSON.stringify(storedIssues));
-
-            alert('Issue submitted successfully!');
-            window.location.href = 'dashboard.html';
+            if (imageFile) {
+                reader.readAsDataURL(imageFile);
+            } else {
+                reader.onload();
+            }
         });
     }
-
     // ===== 4. STUDENT DASHBOARD RENDER =====
     const stepsContainer = document.querySelector('.steps');
 
-   if (stepsContainer && !window.location.pathname.includes('admin-dashboard.html') && window.location.pathname.includes('dashboard.html')) {
+    if (stepsContainer && !window.location.pathname.includes('admin-dashboard.html') && window.location.pathname.includes('dashboard.html')) {
         renderDashboardIssues();
     }
 
     function renderDashboardIssues() {
-        const issues = getAllIssues();
+        const issues = getAllIssues().filter(issue => issue.visibility !== 'admin');
         const activeIssues = issues.filter(i => i.status !== 'resolved');
         const resolvedIssues = issues.filter(i => i.status === 'resolved');
 
@@ -171,8 +197,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="step-number" style="margin: 0 0 12px 0;">${issue.icon}</div>
                     <span class="eyebrow" style="margin-bottom: 6px;">${issue.category.toUpperCase()} &bull; ${issue.location}</span>
-                    <h3>${issue.title}</h3>
+                    <div style="
+                        font-size:12px;
+                        color:#a855f7;
+                        font-weight:700;
+                        margin-bottom:6px;
+                    ">
+                        Complaint ID: ${issue.complaintId || issue.id}
+                    </div>
+
+<h3>${issue.title}</h3>
                     <p>${issue.description}</p>
+                    ${issue.image ? `
+                <img src="${issue.image}"
+                class="issue-image"
+                style="width:100%;
+                     margin-top:15px;
+                     border-radius:12px;
+                     max-height:220px;
+                     object-fit:cover;
+                     border:1px solid rgba(255,255,255,.15);">
+` : ''}
                     <div style="margin-top: 20px;">
                         <button class="btn btn-pill vote-btn ${votedClass}" data-id="${issue.id}" data-basevotes="${issue.votes || 0}" style="width: 100%; ${issue.hasVoted ? 'opacity: 0.85;' : ''}">${votedText}</button>
                     </div>
@@ -260,8 +305,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="step-number" style="margin: 0 0 12px 0;">${issue.icon}</div>
                     <span class="eyebrow" style="margin-bottom: 6px;">${issue.category.toUpperCase()} &bull; ${issue.location}</span>
-                    <h3>${issue.title}</h3>
+                    <div style="
+                    font-size:12px;
+                    color:#a855f7;
+                    font-weight:700;
+                    margin-bottom:6px;
+                ">
+                    Complaint ID: ${issue.complaintId || issue.id}
+                </div>
+
+<h3>${issue.title}</h3>
                     <p>${issue.description}</p>
+                    ${issue.image ? `
+                        <img src="${issue.image}"
+                        onclick="showImage('${issue.image}')"
+                             onclick="window.open('${issue.image}', '_blank')"
+                             style="
+                                width:100%;
+                                margin-top:15px;
+                                border-radius:12px;
+                                max-height:220px;
+                                object-fit:cover;
+                                cursor:pointer;
+                             ">
+                                ` : ''}
                     <div style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
                         <span style="font-size: 13px; font-weight: 600;">Status:</span>
                         <select class="status-select" data-id="${issue.id}" style="padding: 8px 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg-color); color: var(--text-color); font-size: 13px;">
@@ -336,6 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const statusMap = JSON.parse(localStorage.getItem('issueStatusMap')) || {};
                     statusMap[issueId] = newStatus;
                     localStorage.setItem('issueStatusMap', JSON.stringify(statusMap));
+
                 }
 
                 renderAdminIssues();
@@ -428,3 +496,34 @@ document.addEventListener('DOMContentLoaded', () => {
         glow.style.top = `${e.clientY}px`;
     });
 });
+
+function showImage(src) {
+    const imageWindow = window.open("", "_blank");
+
+    imageWindow.document.write(`
+        <html>
+        <head>
+            <title>Issue Image</title>
+            <style>
+                body{
+                    margin:0;
+                    background:#111;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    height:100vh;
+                }
+
+                img{
+                    max-width:95%;
+                    max-height:95%;
+                    border-radius:12px;
+                }
+            </style>
+        </head>
+        <body>
+            <img src="${src}">
+        </body>
+        </html>
+    `);
+}
