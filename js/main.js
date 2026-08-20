@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    
+
     // ===== DEFAULT ISSUES DATA =====
     const defaultIssues = [   
         {
