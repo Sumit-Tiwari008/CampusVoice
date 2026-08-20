@@ -2,7 +2,7 @@
 
 **Smart Campus Issue Management System**
 
-CampusVoice is a web platform that lets students report campus problems, support issues raised by others, and helps college administration prioritize and resolve them based on real student impact.
+CampusVoice is a web platform that lets students report campus problems, support issues raised by others, and helps college administration prioritize and resolve them based on real student impact. 
 
 ## 🚀 Problem It Solves
 
