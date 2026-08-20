@@ -87,10 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== 2. LOGIN / REGISTER FORM REDIRECTS =====
     const loginForm = document.getElementById('loginForm');
+
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
+
             const email = document.getElementById('email')?.value || '';
+
+            // Save currently logged-in user
+            const currentUser = {
+                email: email
+            };
+
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
             if (email.toLowerCase().includes('admin')) {
                 window.location.href = 'admin-dashboard.html';
             } else {
@@ -100,9 +110,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const registerForm = document.getElementById('registerForm');
+
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
+
+            const fullName = document.getElementById('fullName')?.value || '';
+            const email = document.getElementById('email')?.value || '';
+
+            // Save newly registered user as current user
+            const currentUser = {
+                name: fullName,
+                email: email
+            };
+
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
             window.location.href = 'dashboard.html';
         });
     }
@@ -145,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     visibility: visibility,
 
                     createdBy: currentUser.email,
-                    
+
                     votes: 1,
                     status: 'pending'
                 };
@@ -178,7 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderDashboardIssues() {
-        const issues = getAllIssues().filter(issue => issue.visibility !== 'admin');
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        const issues = getAllIssues().filter(issue =>
+            issue.visibility === 'public'
+        );
+
         const activeIssues = issues.filter(i => i.status !== 'resolved');
         const resolvedIssues = issues.filter(i => i.status === 'resolved');
 
@@ -227,6 +255,112 @@ document.addEventListener('DOMContentLoaded', () => {
 
         stepsContainer.innerHTML = html;
 
+        const privateIssues = getAllIssues().filter(issue =>
+            issue.visibility === 'private' &&
+            currentUser &&
+            issue.createdBy === currentUser.email
+        );
+
+        const oldPrivateButton = document.getElementById('privateIssuesWrapper');
+        if (oldPrivateButton) oldPrivateButton.remove();
+
+        const privateButton = document.createElement('div');
+        privateButton.id = 'privateIssuesWrapper';
+
+        privateButton.style.cssText =
+            'width:100%; text-align:center; margin:25px 0;';
+
+        privateButton.innerHTML = `
+    <button id="privateIssuesBtn" class="btn btn-ghost"
+        style="padding:10px 24px; border:1px solid #a855f7; color:#a855f7;">
+        🔒 My Private Issues (${privateIssues.length})
+    </button>
+`;
+
+        stepsContainer.parentNode.insertBefore(privateButton, stepsContainer.nextSibling);
+
+        const privateIssuesBtn = document.getElementById('privateIssuesBtn');
+
+        if (privateIssuesBtn) {
+            privateIssuesBtn.onclick = () => {
+                const privateIssues = getAllIssues().filter(issue =>
+                    issue.visibility === 'private' &&
+                    currentUser &&
+                    issue.createdBy === currentUser.email
+                );
+
+                if (privateIssues.length === 0) {
+                    alert('You have no private issues.');
+                    return;
+                }
+
+                stepsContainer.innerHTML = '';
+
+                privateIssuesBtn.onclick = () => {
+                    const privateIssues = getAllIssues().filter(issue =>
+                        issue.visibility === 'private' &&
+                        currentUser &&
+                        issue.createdBy === currentUser.email
+                    );
+
+                    if (privateIssues.length === 0) {
+                        alert('You have no private issues.');
+                        return;
+                    }
+
+                    stepsContainer.innerHTML = '';
+
+                    privateIssues.forEach((issue, index) => {
+                        const badge = getStatusBadge(issue.status);
+
+                        stepsContainer.innerHTML += `
+            <div class="step-card" data-category="${issue.category}" style="text-align:left; position:relative;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                    <span style="font-size:11px; font-weight:700; color:#a855f7;">
+                        Private #${index + 1}
+                    </span>
+                    ${badge}
+                </div>
+
+                <div class="step-number" style="margin:0 0 12px 0;">
+                    ${issue.icon}
+                </div>
+
+                <span class="eyebrow" style="margin-bottom:6px;">
+                    ${issue.category.toUpperCase()} &bull; ${issue.location}
+                </span>
+
+                <div style="font-size:12px; color:#a855f7; font-weight:700; margin-bottom:6px;">
+                    Complaint ID: ${issue.complaintId || issue.id}
+                </div>
+
+                <h3>${issue.title}</h3>
+                <p>${issue.description}</p>
+
+                ${issue.image ? `
+                    <img src="${issue.image}"
+                        class="issue-image"
+                        style="width:100%;
+                        margin-top:15px;
+                        border-radius:12px;
+                        max-height:220px;
+                        object-fit:cover;
+                        border:1px solid rgba(255,255,255,.15);">
+                ` : ''}
+
+                <div style="margin-top:15px;">
+                    ${issue.status === 'resolved'
+                                ? '<span style="color:#2ecc71; font-weight:600;">✓ This private issue has been resolved</span>'
+                                : '<span style="color:#f39c12; font-weight:600;">⏳ This issue is still being processed</span>'
+                            }
+                </div>
+            </div>
+        `;
+                    });
+                };
+            }
+        }
+
         // Cleanup any pre-existing student solved containers
         document.querySelectorAll('#studentSolvedWrapper, .student-solved-container').forEach(el => el.remove());
 
@@ -240,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <button id="toggleSolvedBtn" class="btn btn-ghost" style="padding: 10px 24px; border: 1px solid #2ecc71; color: #2ecc71; font-weight: 600;">
                 Solved ✓ (${resolvedIssues.length})
             </button>
-            <div id="solvedGrid" class="steps" style="display: none; margin-top: 25px;">
+            <div id="solvedGrid" class="steps" style="display: none; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 25px;">
                 ${resolvedIssues.map(issue => `
                     <div class="step-card" data-category="${issue.category}" style="text-align: left; opacity: 0.8; border-color: rgba(46, 204, 113, 0.3);">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
@@ -265,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (toggleSolvedBtn && solvedGrid) {
             toggleSolvedBtn.onclick = () => {
                 const isHidden = solvedGrid.style.display === 'none';
-                solvedGrid.style.display = isHidden ? 'grid' : 'none';
+               solvedGrid.style.display = isHidden ? 'grid' : 'none';
                 toggleSolvedBtn.innerText = isHidden ? `Hide Solved Issues (${resolvedIssues.length})` : `Solved ✓ (${resolvedIssues.length})`;
             };
         }
@@ -356,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <button id="adminToggleSolvedBtn" class="btn btn-ghost" style="padding: 10px 24px; border: 1px solid #2ecc71; color: #2ecc71; font-weight: 600;">
                 Solved ✓ (${resolvedIssues.length})
             </button>
-            <div id="adminSolvedGrid" class="steps" style="display: none; margin-top: 25px;">
+            <div id="adminSolvedGrid" class="steps" style="display: none; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 25px;">
                 ${resolvedIssues.map(issue => `
                     <div class="step-card" style="text-align: left; opacity: 0.85; border-color: rgba(46, 204, 113, 0.3);">
                         <div class="step-number" style="margin: 0 0 12px 0;">${issue.icon}</div>
