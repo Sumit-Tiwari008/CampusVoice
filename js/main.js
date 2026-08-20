@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ===== DEFAULT ISSUES DATA =====
-    const defaultIssues = [
+    const defaultIssues = [   
         {
             id: 'default_1',
             title: 'Hostel Wi-Fi Down',
